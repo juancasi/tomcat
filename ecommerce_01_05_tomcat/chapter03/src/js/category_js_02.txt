@@ -1,0 +1,56 @@
+  function ajaxCallRequest(f_method, f_url, f_data) {
+    var f_contentType = 'application/json; charset=UTF-8';
+    $.ajax({
+      url : f_url,
+      type : f_method,
+      contentType : f_contentType,
+      dataType : 'json',
+      data : f_data,
+      error: function(data) {
+        var title = "Error !";
+        var message = "Error al eejcutar la operación";
+        $("#error_title").text(title);
+        $("#error_message").text(message);
+        $("#categoryModal .close").click();
+        $("#error-alert").fadeTo(2000, 500).slideUp(500, function() {
+          $("#error-alert").slideUp(500);
+        });
+      },
+      success: function(data) {
+        var jsonResult = JSON.stringify(data);
+        var parsed = JSON.parse(jsonResult);
+        var success = parsed.success;
+        var message = parsed.mensaje
+        var title = "Success !";
+        if(success == false){
+          title = "Error !";
+        }
+
+        $("#success_title").text(title);
+        $("#success_message").text(message);
+        $("#categoryModal .close").click();
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+          $("#success-alert").slideUp(500);
+        });
+        table.ajax.reload();
+      }
+    });
+  }
+
+  $("#sendJSON").click(function(event) {
+    event.preventDefault();
+    var form = $('#categoryForm');
+    var method = form.attr('method');
+    var url = form.attr('action');
+    if (method != "POST") {
+      var id = document.getElementById("id").value;
+      url = url + id;
+    }
+    var jsonData = {};
+    $.each($(form).serializeArray(), function() {
+      jsonData[this.name] = this.value;
+    });
+    var data = JSON.stringify(jsonData);
+    console.log(data);
+    ajaxCallRequest(method, url, data);
+  });

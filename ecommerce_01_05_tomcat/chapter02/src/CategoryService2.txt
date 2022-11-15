@@ -1,0 +1,37 @@
+    @GET
+	@Path("/")
+	@Produces("application/json")
+    // @Produces("application/xml")
+	public CategoryList getAll() {
+		ArrayList<Category> categoryList = new ArrayList<Category>();
+		DataBase database = new DataBase();
+		Connection connection1 = null;
+		Statement statement1 = null;
+		ResultSet rs1 = null;
+		String sql = "";
+		try {
+			connection1 = database.getConnection("admin");
+			statement1 = connection1.createStatement();
+			sql = "select * from categories";
+			rs1 = statement1.executeQuery(sql);
+			while (rs1.next()) {
+				int id = rs1.getInt("id");
+				int published = rs1.getInt("published");
+				String name = rs1.getString("name");
+				String icon = rs1.getString("icon");
+				Category category = new Category();
+				category.setId(id);
+				category.setPublished(published);
+				category.setName(name);
+				category.setIcon(icon);
+				categoryList.add(category);
+			}
+		} catch (Exception e) {
+			System.out.println("Error: " + e.toString());
+		} finally {
+			database.closeObject(rs1);
+			database.closeObject(statement1);
+			database.closeObject(connection1);
+		}
+		return new CategoryList(categoryList);
+	}
