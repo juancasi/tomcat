@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Realm className="org.apache.catalina.realm.JAASRealm"
+		appName="SoftwareLogin"
+		userClassNames="org.software.jaas.UserPrincipal"
+		roleClassNames="org.software.jaas.RolePrincipal" />
+	<Resource name="jdbc/eCommerceAdminDS" auth="Container"
+		type="javax.sql.DataSource" maxTotal="50" maxIdle="30"
+		maxWaitMillis="10000" username="ecommerce_admin" password="234567"
+		driverClassName="org.postgresql.Driver"
+		url="jdbc:postgresql://localhost:5432/ecommerce" />
+	<Resource name="jdbc/eCommerceClientDS" auth="Container"
+		type="javax.sql.DataSource" maxTotal="50" maxIdle="30"
+		maxWaitMillis="10000" username="ecommerce_client" password="345678"
+		driverClassName="org.postgresql.Driver"
+		url="jdbc:postgresql://localhost:5432/ecommerce" />
+	<Resource name="jdbc/eCommerceGuestDS" auth="Container"
+		type="javax.sql.DataSource" maxTotal="50" maxIdle="30"
+		maxWaitMillis="10000" username="ecommerce_guest" password="456789"
+		driverClassName="org.postgresql.Driver"
+		url="jdbc:postgresql://localhost:5432/ecommerce" />
+</Context>
